@@ -47,7 +47,7 @@ def singer_details(request, pk):
 
         if serializer.is_valid():
             serializer.save()
-            return JSONParser(serializer.data)
+            return JsonResponse(serializer.data)
         return JsonResponse(serializer.errors, status=400)
 
 
