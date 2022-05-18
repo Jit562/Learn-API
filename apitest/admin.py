@@ -6,17 +6,17 @@ from .models import *
 
 @admin.register(Singer)
 class AdminSinger(admin.ModelAdmin):
-    list_display = ['title','name','apdate','city']
+    list_display = ['name','gender']
     list_per_page = 10
-    search_fields = ['title','name']
-    list_filter = ['title','name']
+    search_fields = ['name']
+    list_filter = ['name']
 
 
 
 @admin.register(Song)
 class AdminSinger(admin.ModelAdmin):
-    list_display = ['title','son_name','writer','singer']
+    list_display = ['title','singer','duration']
     list_per_page = 10
-    search_fields = ['title','son_name','writer', 'singer']
-    list_filter = ['son_name','writer', 'singer']
+    search_fields = ['title']
+    
 

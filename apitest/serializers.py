@@ -1,5 +1,7 @@
+from nbformat import read
 from .models import *
 from rest_framework import serializers
+
 
 
 class SingerSerializer(serializers.Serializer):
@@ -22,3 +24,22 @@ class SingerSerializer(serializers.Serializer):
         instance.save()
 
         return instance
+
+
+
+class SongSerializer(serializers.ModelSerializer):
+    # singer = SingSerializer(many = True, read_only=True)
+    # singer = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
+    # songs = serializers.PrimaryKeyRelatedField(many=True,  read_only=False, queryset=Song.objects.all())
+    # songs = serializers.SlugRelatedField(many=True, read_only=True, slug_field="name")
+    class Meta:
+        model = Song
+        fields = ['id','title','singer','duration'] 
+
+
+class SingSerializer(serializers.ModelSerializer):
+    # song = serializers.StringRelatedField(many=True, read_only=True)
+    song = SongSerializer(many=True, read_only=True)
+    class Meta:
+        model = Singer
+        fields = ['id','name','gender','song']           
