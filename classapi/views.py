@@ -1,3 +1,4 @@
+import imp
 from os import stat
 from django.shortcuts import render
 from classapi import serializers
@@ -54,4 +55,91 @@ class StudentDetails(APIView):
     def delete(self, request, pk, format=None):
         student = self.get_object(pk) 
         student.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)                         
+        return Response(status=status.HTTP_204_NO_CONTENT)    
+
+
+
+# class base api using mixins 
+
+
+from rest_framework import mixins, generics
+
+
+class mixstudentlist(mixins.ListModelMixin,
+                    mixins.CreateModelMixin,
+                    generics.GenericAPIView):
+
+
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+
+    def post(self, request,*args, **kwargs):
+        return self.create(request,*args, **kwargs)
+
+class mixistudentdet(mixins.RetrieveModelMixin,
+                    mixins.UpdateModelMixin,
+                    mixins.DestroyModelMixin,
+                    generics.GenericAPIView):
+
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer                
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+
+    def put(self , request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
+
+
+    def delete(self, request, *args, **kwargs):
+        return  self.destroy(request, *args , **kwargs)         
+
+
+
+
+
+
+# class base api using generic view
+
+# Generic_method      (generics.CreateAPIView,
+#                       generics.DestroyAPIView,
+#                       generics.ListAPIView,
+#                       generics.UpdateAPIView,
+#                       generics.RetrieveAPIView,
+#                       generics.RetrieveUpdateAPIView,
+#                       generics.RetrieveDestroyAPIView,
+#                       generics.ListCreateAPIView,
+#                       generics.RetrieveUpdateDestroyAPIView)
+
+
+class StudentGeneric(generics.ListCreateAPIView):
+
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer                  
+
+
+
+class StudentGenericdet(generics.RetrieveUpdateDestroyAPIView):
+
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer 
+
+
+
+# class base api using model view
+
+from rest_framework import viewsets
+
+
+class studentmodel(viewsets.ModelViewSet):
+    
+    queryset = Student.objects.all()
+    serializer_class = StudentSerializer
+
+
+
+
