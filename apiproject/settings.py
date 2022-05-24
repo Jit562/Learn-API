@@ -30,6 +30,23 @@ ALLOWED_HOSTS = []
 
 # Application definition
 
+LOCAL_APPS = [
+
+    'apitest',
+    'classapi',
+    'permisionapi',
+
+]
+
+
+THIRD_PARTY_APPS = [
+
+    'rest_framework',
+    'rest_framework.authtoken',
+
+]
+
+
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -37,11 +54,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'rest_framework',
-    'apitest',
-    'classapi',
-
 ]
+
+INSTALLED_APPS += LOCAL_APPS + THIRD_PARTY_APPS
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -125,3 +141,19 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+REST_FRAMEWORK = {
+    # 'DEFAULT_THROTTLE_CLASSES': [
+    #     'rest_framework.throttling.AnonRateThrottle',
+    #     'rest_framework.throttling.UserRateThrottle'
+    # ],
+    'DEFAULT_THROTTLE_RATES': {
+        'anon': '2/day',
+        'user': '3/day',
+        'jack': '5/minute',
+        'sack': '10/minute',
+        'viewst': '5/minute',
+    }
+}
